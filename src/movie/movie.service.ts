@@ -5,17 +5,12 @@ import { CreateMovieInput } from './input/createMovie.input';
 @Injectable()
 export class MovieService {
   constructor(private prisma: PrismaService) {}
-  private movies = [
-    {
-      id: 1,
-      title: 'test',
-      description: 'test',
-      releaseDate: '2021-01-01',
-      director: 'test',
-    },
-  ];
   async getMovies() {
-    return this.movies;
+    return this.prisma.movie.findMany({
+      include: {
+        genres: true,
+      },
+    });
   }
 
   async createMovie(input: CreateMovieInput) {
